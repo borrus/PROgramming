@@ -1,0 +1,15 @@
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.csproj.AssemblyReference.cache
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.AssemblyInfoInputs.cache
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.AssemblyInfo.cs
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.csproj.CoreCompileInputs.cache
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\bin\Debug\net6.0\LastTasks.exe
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\bin\Debug\net6.0\LastTasks.deps.json
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\bin\Debug\net6.0\LastTasks.runtimeconfig.json
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\bin\Debug\net6.0\LastTasks.dll
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\bin\Debug\net6.0\LastTasks.pdb
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.dll
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\refint\LastTasks.dll
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.pdb
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\LastTasks.genruntimeconfig.cache
+C:\Users\Borru\Desktop\Programming sem2\LastTasks\LastTasks\obj\Debug\net6.0\ref\LastTasks.dll
