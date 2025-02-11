@@ -1,0 +1,14 @@
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.AssemblyInfoInputs.cache
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.AssemblyInfo.cs
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.csproj.CoreCompileInputs.cache
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\bin\Debug\net8.0\ProcessingDataForWEB_APP.exe
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\bin\Debug\net8.0\ProcessingDataForWEB_APP.deps.json
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\bin\Debug\net8.0\ProcessingDataForWEB_APP.runtimeconfig.json
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\bin\Debug\net8.0\ProcessingDataForWEB_APP.dll
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\bin\Debug\net8.0\ProcessingDataForWEB_APP.pdb
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.dll
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\refint\ProcessingDataForWEB_APP.dll
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.pdb
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ProcessingDataForWEB_APP.genruntimeconfig.cache
+C:\Users\Borru\source\repos\ProcessingDataForWEB_APP\ProcessingDataForWEB_APP\obj\Debug\net8.0\ref\ProcessingDataForWEB_APP.dll

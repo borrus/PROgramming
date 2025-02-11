@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ProcessingDataForWEB_APP/1.0.0": {
+        "runtime": {
+          "ProcessingDataForWEB_APP.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ProcessingDataForWEB_APP/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
