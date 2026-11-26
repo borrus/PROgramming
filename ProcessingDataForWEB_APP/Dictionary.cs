@@ -55,7 +55,7 @@ namespace ProcessingDataForWEB_APP
 
                 if (movieDictionary.TryGetValue(filmName, out var existingMovie))
                 {
-                    if (existingMovie.Director == null || existingMovie.Director == "")
+                    if (existingMovie.Director == null && existingMovie.Director == "")
                     {
                         if (f.PersonJob.ToLower() == "director")
                         {
