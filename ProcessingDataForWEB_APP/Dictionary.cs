@@ -63,7 +63,7 @@ namespace ProcessingDataForWEB_APP
                         }
                     }
 
-                    if (existingMovie.Director != null || existingMovie.Director != "")
+                    if (string.IsNullOrEmpty(existingMovie.Director))
                     {
                         if (f.PersonJob.ToLower() == "actor")
                         {
