@@ -24,13 +24,12 @@ namespace ProcessingDataForWEB_APP
             this.FilmIdIMDB = filmIdIMDB;
         }
 
-        public List<A> SetA()
+        public List<A> SetA(string namesPath, string codesPath)
         {
-            ActorsDirectorsNames names = new ActorsDirectorsNames();
-            ActorsDirectorsCodes codes = new ActorsDirectorsCodes();
-
-            var first = names.SetIdName("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\ActorsDirectorsNames_IMDB.txt");
-            var second = codes.SetIdRole("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\ActorsDirectorsCodes_IMDB.tsv");
+            var names = new ActorsDirectorsNames();
+            var codes = new ActorsDirectorsCodes();
+            var first = names.SetIdName(namesPath);
+            var second = codes.SetIdRole(codesPath);
 
             var bag = new ConcurrentBag<A>();
 
