@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 
 namespace ProcessingDataForWEB_APP
 {
+    public sealed record ProcessingPaths(
+        string Names,
+        string Codes,
+        string Titles,
+        string Ratings,
+        string Links,
+        string TagWeights,
+        string Tags)
+    {
+        public IEnumerable<string> All =>
+            new[] { Names, Codes, Titles, Ratings, Links, TagWeights, Tags };
+    }
+
     //ActDirNames + ActDirCodes = A
     public class A
     {
@@ -38,7 +51,6 @@ namespace ProcessingDataForWEB_APP
                       .ToDictionary(g => g.Key, g => g.ToList())
             );
 
-
             Parallel.ForEach(first, f =>
             {
                 if (secondDictionary.TryGetValue(f.PersonId, out var secondList))
@@ -62,10 +74,7 @@ namespace ProcessingDataForWEB_APP
         public string FilmName;
         public string FilmIdIMDB;
 
-        public B()
-        {
-
-        }
+        public B() { }
 
         public B(string personName, string personJob, string filmName, string filmIdIMDB)
         {
@@ -75,13 +84,13 @@ namespace ProcessingDataForWEB_APP
             this.FilmIdIMDB = filmIdIMDB;
         }
 
-        public List<B> SetB()
+        public List<B> SetB(ProcessingPaths paths)
         {
             var movieCodesIMDB = new MovieCodesIMDB();
             var a = new A();
 
-            var first = a.SetA();
-            var second = movieCodesIMDB.SetMovieCodes("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\MovieCodes_IMDB.tsv");
+            var first = a.SetA(paths.Names, paths.Codes);
+            var second = movieCodesIMDB.SetMovieCodes(paths.Titles);
 
             var bag = new ConcurrentBag<B>();
 
@@ -106,8 +115,6 @@ namespace ProcessingDataForWEB_APP
 
             return bag.ToList();
         }
-
-
     }
 
     //B + RatingsIMDB = C
@@ -119,10 +126,7 @@ namespace ProcessingDataForWEB_APP
         public double FilmRating;
         public string FilmIdIMDB;
 
-        public C()
-        {
-
-        }
+        public C() { }
 
         public C(string personName, string personJob, string filmName, double filmRating, string filmIdIMDB)
         {
@@ -133,13 +137,13 @@ namespace ProcessingDataForWEB_APP
             this.FilmIdIMDB = filmIdIMDB;
         }
 
-        public List<C> SetC()
+        public List<C> SetC(ProcessingPaths paths)
         {
             var ratingsIMDB = new RatingsIMDB();
             var b = new B();
 
-            var first = b.SetB();
-            var second = ratingsIMDB.SetRatings("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\Ratings_IMDB.tsv");
+            var first = b.SetB(paths);
+            var second = ratingsIMDB.SetRatings(paths.Ratings);
 
             var bag = new ConcurrentBag<C>();
 
@@ -165,20 +169,17 @@ namespace ProcessingDataForWEB_APP
             return bag.ToList();
         }
     }
-    
-    //C + linksIMDBMovieLens
+
+    //C + linksIMDBMovieLens = D
     public class D
     {
         public string PersonName;
         public string PersonJob;
         public string FilmName;
         public double FilmRating;
-        public string FilmId;
+        public string FilmId; // MovieLens ID
 
-        public D()
-        {
-
-        }
+        public D() { }
 
         public D(string personName, string personJob, string filmName, double filmRating, string filmId)
         {
@@ -189,16 +190,17 @@ namespace ProcessingDataForWEB_APP
             FilmId = filmId;
         }
 
-        public List<D> SetD()
+        public List<D> SetD(ProcessingPaths paths)
         {
             var linksIMDBMovieLens = new linksIMDBMovieLens();
             var c = new C();
 
-            var first = c.SetC();
-            var second = linksIMDBMovieLens.SetLinks("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\links_IMDB_MovieLens.csv");
+            var first = c.SetC(paths);
+            var second = linksIMDBMovieLens.SetLinks(paths.Links);
 
             var bag = new ConcurrentBag<D>();
 
+            // Ключ — IMDb ID в формате "tt...", значение — Link (MovieLens ID в link.FilmId)
             var secondDictionary = new ConcurrentDictionary<string, Link>(
                 second.ToDictionary(s => "tt" + s.FilmIdIMDB, s => s)
             );
@@ -209,7 +211,8 @@ namespace ProcessingDataForWEB_APP
                 {
                     if (link != null)
                     {
-                        bag.Add(new D(f.PersonName, f.PersonJob, f.FilmName, f.FilmRating, f.FilmIdIMDB));
+                        // ВАЖНО: передаём link.FilmId (MovieLens ID), а не f.FilmIdIMDB
+                        bag.Add(new D(f.PersonName, f.PersonJob, f.FilmName, f.FilmRating, link.FilmId));
                     }
                 }
             });
@@ -227,10 +230,7 @@ namespace ProcessingDataForWEB_APP
         public double FilmRating;
         public string TagId;
 
-        public E()
-        {
-
-        }
+        public E() { }
 
         public E(string personName, string personJob, string filmName, double filmRating, string tagId)
         {
@@ -241,13 +241,13 @@ namespace ProcessingDataForWEB_APP
             TagId = tagId;
         }
 
-        public List<E> SetE()
+        public List<E> SetE(ProcessingPaths paths)
         {
             var tagScoresMovieLens = new TagScoresMovieLens();
             var d = new D();
 
-            var first = d.SetD();
-            var second = tagScoresMovieLens.SetTagScores("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\TagScores_MovieLens.csv");
+            var first = d.SetD(paths);
+            var second = tagScoresMovieLens.SetTagScores(paths.TagWeights);
 
             var bag = new ConcurrentBag<E>();
 
@@ -258,9 +258,8 @@ namespace ProcessingDataForWEB_APP
 
             Parallel.ForEach(first, f =>
             {
-                var filmId = CreateNdFilmId(f.FilmId);
-
-                if (secondDictionary.TryGetValue(filmId, out var tagScoresList))
+                // f.FilmId — это уже MovieLens ID, никаких обрезок IMDb не нужно
+                if (secondDictionary.TryGetValue(f.FilmId, out var tagScoresList))
                 {
                     if (tagScoresList != null)
                     {
@@ -274,14 +273,6 @@ namespace ProcessingDataForWEB_APP
 
             return bag.ToList();
         }
-
-        private string CreateNdFilmId(string input)
-        {
-            string outP = input.Remove(0, 2);
-            outP.TrimStart('0');
-
-            return outP.TrimStart('0');
-        }
     }
 
     //E + TagCodes
@@ -293,10 +284,7 @@ namespace ProcessingDataForWEB_APP
         public double FilmRating;
         public string Tag;
 
-        public F()
-        {
-
-        }
+        public F() { }
 
         public F(string personName, string personJob, string filmName, double filmRating, string tag)
         {
@@ -307,13 +295,13 @@ namespace ProcessingDataForWEB_APP
             this.Tag = tag;
         }
 
-        public List<F> SetF()
+        public static List<F> SetF(ProcessingPaths paths)
         {
             var tagCodesMovieLens = new TagCodesMovieLens();
             var e = new E();
 
-            var first = e.SetE();
-            var second = tagCodesMovieLens.SetTagCodes("C:\\Users\\Borru\\OneDrive\\Desktop\\ml-latest\\TagCodes_MovieLens.csv");
+            var first = e.SetE(paths);
+            var second = tagCodesMovieLens.SetTagCodes(paths.Tags);
 
             var bag = new ConcurrentBag<F>();
 
@@ -336,4 +324,3 @@ namespace ProcessingDataForWEB_APP
         }
     }
 }
- 
