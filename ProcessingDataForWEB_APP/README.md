@@ -47,3 +47,15 @@ dotnet run --project ProcessingDataForWEB_APP.csproj -- \
   "path/to/links_IMDB_MovieLens.csv" \
   "path/to/TagScores_MovieLens.csv" \
   "path/to/TagCodes_MovieLens.csv"
+```
+
+If fewer or more than seven arguments are passed, or any of the files does not exist, the program reports the problem and exits without processing.
+
+## Expected Output
+
+```text
+Обработка завершена!
+Количество записей: <N>
+```
+
+`N` is the number of rows in the resulting `List<F>`. One movie can appear multiple times — once per (person, tag) combination — so this is the number of records, not the number of distinct movies. To get distinct movies/persons, feed the result into `Dictionary.CreateMovieDictionary` / `Dictionary.CreateActorMovieDictionary`.
