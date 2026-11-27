@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,6 @@ namespace ProcessingDataForWEB_APP
 
         public Movie()
         {
-
         }
 
         public Movie(string filmName, HashSet<string> actors, string director, HashSet<string> tags, double rating)
@@ -33,7 +32,7 @@ namespace ProcessingDataForWEB_APP
 
     public class Dictionary
     {
-        //first dict
+        // first dict
         public ConcurrentDictionary<string, Movie> CreateMovieDictionary(List<F> fList)
         {
             var movieDictionary = new ConcurrentDictionary<string, Movie>();
@@ -41,6 +40,7 @@ namespace ProcessingDataForWEB_APP
             foreach (var f in fList)
             {
                 string filmName = f.FilmName;
+                string job = f.PersonJob?.ToLowerInvariant();
 
                 if (!movieDictionary.ContainsKey(filmName))
                 {
@@ -55,23 +55,23 @@ namespace ProcessingDataForWEB_APP
 
                 if (movieDictionary.TryGetValue(filmName, out var existingMovie))
                 {
-                    if (string.IsNullOrEmpty(existingMovie.Director))
+                    // Пункт 4: режиссёра назначаем только если он ещё не найден.
+                    if (string.IsNullOrEmpty(existingMovie.Director) && job == "director")
                     {
-                        if (f.PersonJob.ToLower() == "director")
-                        {
-                            existingMovie.Director = f.PersonName;
-                        }
+                        existingMovie.Director = f.PersonName;
                     }
 
-                    if (string.IsNullOrEmpty(existingMovie.Director))
+                    // Пункт 4: актёров добавляем независимо от того, найден ли уже режиссёр.
+                    if (job == "actor")
                     {
-                        if (f.PersonJob.ToLower() == "actor")
-                        {
-                            existingMovie.Actors.Add(f.PersonName);
-                        }
+                        existingMovie.Actors.Add(f.PersonName);
                     }
 
-                    existingMovie.Tags.Add(f.Tag);
+                    if (!string.IsNullOrEmpty(f.Tag))
+                    {
+                        existingMovie.Tags.Add(f.Tag);
+                    }
+
                     movieDictionary.AddOrUpdate(filmName, existingMovie, (key, oldValue) => existingMovie);
                 }
             }
@@ -79,14 +79,16 @@ namespace ProcessingDataForWEB_APP
             return movieDictionary;
         }
 
-        //sec dict
+        // sec dict
         public ConcurrentDictionary<string, HashSet<Movie>> CreateActorMovieDictionary(List<F> fList)
         {
             var actorMovieDictionary = new ConcurrentDictionary<string, HashSet<Movie>>();
 
             foreach (var f in fList)
             {
-                if (f.PersonJob.ToLower() == "actor" || f.PersonJob.ToLower() == "director")
+                string job = f.PersonJob?.ToLowerInvariant();
+
+                if (job == "actor" || job == "director")
                 {
                     string personName = f.PersonName;
                     actorMovieDictionary.TryAdd(personName, new HashSet<Movie>());
@@ -103,16 +105,19 @@ namespace ProcessingDataForWEB_APP
                                 Rating = f.FilmRating
                             };
 
-                            if (f.PersonJob.ToLower() == "director")
+                            if (job == "director")
                             {
                                 movie.Director = f.PersonName;
                             }
-                            else if (f.PersonJob.ToLower() == "actor")
+                            else if (job == "actor")
                             {
                                 movie.Actors.Add(f.PersonName);
                             }
 
-                            movie.Tags.Add(f.Tag);
+                            if (!string.IsNullOrEmpty(f.Tag))
+                            {
+                                movie.Tags.Add(f.Tag);
+                            }
 
                             movieSet.Add(movie);
                         }
@@ -120,16 +125,19 @@ namespace ProcessingDataForWEB_APP
                         {
                             existingMovie.Rating = f.FilmRating;
 
-                            if (f.PersonJob.ToLower() == "director")
+                            if (job == "director")
                             {
                                 existingMovie.Director = f.PersonName;
                             }
-                            else if (f.PersonJob.ToLower() == "actor")
+                            else if (job == "actor")
                             {
                                 existingMovie.Actors.Add(f.PersonName);
                             }
 
-                            existingMovie.Tags.Add(f.Tag);
+                            if (!string.IsNullOrEmpty(f.Tag))
+                            {
+                                existingMovie.Tags.Add(f.Tag);
+                            }
                         }
 
                         actorMovieDictionary.AddOrUpdate(personName, movieSet, (key, oldValue) => movieSet);
