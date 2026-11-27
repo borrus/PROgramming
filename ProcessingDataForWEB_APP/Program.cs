@@ -1,27 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using ProcessingDataForWEB_APP;
 
 namespace PROgramming
 {
-    class Program
+    internal static class Program
     {
         public static void Main(string[] args)
         {
-            if (args.Length < 4)
+            if (args.Length != 7)
             {
-                Console.WriteLine("Ошибка: передайте пути к файлам (names, codes, movies, ratings).");
+                Console.Error.WriteLine(
+                    "Ошибка: передайте 7 путей в порядке: " +
+                    "names, codes, titles, ratings, links, tagWeights, tags.");
                 return;
             }
 
-            var processor = new DataProcessor();
-            // Передаем пути из консоли в твой метод
-            var result = processor.SetF(args[0], args[1], args[2], args[3]);
-            
+            var paths = new ProcessingPaths(
+                Names: args[0],
+                Codes: args[1],
+                Titles: args[2],
+                Ratings: args[3],
+                Links: args[4],
+                TagWeights: args[5],
+                Tags: args[6]);
+
+            foreach (var path in paths.All)
+            {
+                if (!File.Exists(path))
+                {
+                    Console.Error.WriteLine($"Файл не найден: {path}");
+                    return;
+                }
+            }
+
+            var result = F.SetF(paths);
+
             Console.WriteLine("Обработка завершена!");
-            Console.WriteLine($"Количество фильмов: {result.Count}");
+            Console.WriteLine($"Количество записей: {result.Count}");
+
+            // Если в README остаются два словаря, после присылки Dictionary.cs
+            // добавлю сюда точный вывод:
+            // var movieDict = Dictionary.CreateMovieDictionary(result);
+            // var actorDict = Dictionary.CreateActorMovieDictionary(result);
+            // Console.WriteLine($"Фильмов: {movieDict.Count}");
+            // Console.WriteLine($"Актеров: {actorDict.Count}");
         }
     }
 }
