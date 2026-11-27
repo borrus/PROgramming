@@ -38,13 +38,6 @@ namespace PROgramming
 
             Console.WriteLine("Обработка завершена!");
             Console.WriteLine($"Количество записей: {result.Count}");
-
-            // Если в README остаются два словаря, после присылки Dictionary.cs
-            // добавлю сюда точный вывод:
-            // var movieDict = Dictionary.CreateMovieDictionary(result);
-            // var actorDict = Dictionary.CreateActorMovieDictionary(result);
-            // Console.WriteLine($"Фильмов: {movieDict.Count}");
-            // Console.WriteLine($"Актеров: {actorDict.Count}");
         }
     }
 }
